@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>恋与人机 - 探索AI与人类情感的边界与共生</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js"></script>
     <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -299,6 +303,22 @@
 
     <!-- JavaScript -->
     <script>
+        // Firebase配置
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9zP5pK8t0Q8v6Z7X9c0e0e0e0e0e0e0",
+            authDomain: "love-ai-website.firebaseapp.com",
+            databaseURL: "https://love-ai-website-default-rtdb.firebaseio.com",
+            projectId: "love-ai-website",
+            storageBucket: "love-ai-website.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef1234567890"
+        };
+        
+        // 初始化Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const storage = firebase.storage();
+        
         // 导航菜单切换
         document.getElementById('menu-toggle').addEventListener('click', function() {
             const mobileMenu = document.getElementById('mobile-menu');
@@ -322,7 +342,7 @@
         });
         
         // 讨论区功能
-        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+        let posts = [];
         
         // 渲染帖子
         function renderPosts() {
@@ -348,7 +368,7 @@
                                 <p class="text-sm text-gray-500">${post.timestamp}</p>
                             </div>
                         </div>
-                        <button onclick="deletePost(${post.id})" class="text-red-500 hover:text-red-700 transition-colors">
+                        <button onclick="deletePost('${post.id}')" class="text-red-500 hover:text-red-700 transition-colors">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
@@ -358,12 +378,34 @@
             });
         }
         
+        // 加载帖子
+        function loadPosts() {
+            database.ref('posts').once('value')
+                .then(snapshot => {
+                    posts = [];
+                    snapshot.forEach(childSnapshot => {
+                        posts.push(childSnapshot.val());
+                    });
+                    // 按时间倒序排序
+                    posts.sort((a, b) => b.id - a.id);
+                    renderPosts();
+                })
+                .catch(error => {
+                    console.error('加载帖子失败:', error);
+                });
+        }
+        
         // 删除帖子
         function deletePost(postId) {
             if (confirm('确定要删除这篇帖子吗？')) {
-                posts = posts.filter(post => post.id !== postId);
-                localStorage.setItem('posts', JSON.stringify(posts));
-                renderPosts();
+                database.ref('posts/' + postId).remove()
+                    .then(() => {
+                        loadPosts(); // 重新加载帖子
+                    })
+                    .catch(error => {
+                        console.error('删除帖子失败:', error);
+                        alert('删除帖子失败，请重试。');
+                    });
             }
         }
         
@@ -372,110 +414,26 @@
             const content = document.getElementById('post-content').value.trim();
             if (content) {
                 const post = {
-                    id: Date.now(),
+                    id: Date.now().toString(),
                     content: content,
                     timestamp: new Date().toLocaleString()
                 };
-                posts.unshift(post);
-                localStorage.setItem('posts', JSON.stringify(posts));
-                document.getElementById('post-content').value = '';
-                renderPosts();
+                
+                // 保存到Firebase
+                database.ref('posts/' + post.id).set(post)
+                    .then(() => {
+                        document.getElementById('post-content').value = '';
+                        loadPosts(); // 重新加载帖子
+                    })
+                    .catch(error => {
+                        console.error('保存帖子失败:', error);
+                        alert('保存帖子失败，请重试。');
+                    });
             }
         });
         
-        // 视频区功能 - 使用IndexedDB存储
-        let videos = JSON.parse(localStorage.getItem('videos')) || [];
-        let db;
-        
-        // 初始化IndexedDB
-        function initIndexedDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open('TechAI', 1);
-                
-                request.onupgradeneeded = function(event) {
-                    db = event.target.result;
-                    if (!db.objectStoreNames.contains('videos')) {
-                        db.createObjectStore('videos', { keyPath: 'id' });
-                    }
-                };
-                
-                request.onsuccess = function(event) {
-                    db = event.target.result;
-                    resolve(db);
-                };
-                
-                request.onerror = function(event) {
-                    console.error('IndexedDB初始化失败:', event.target.error);
-                    reject(event.target.error);
-                };
-            });
-        }
-        
-        // 保存视频到IndexedDB
-        function saveVideoToIndexedDB(videoData) {
-            return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('IndexedDB未初始化'));
-                    return;
-                }
-                
-                const transaction = db.transaction(['videos'], 'readwrite');
-                const store = transaction.objectStore('videos');
-                const request = store.put(videoData);
-                
-                request.onsuccess = function() {
-                    resolve();
-                };
-                
-                request.onerror = function(event) {
-                    reject(event.target.error);
-                };
-            });
-        }
-        
-        // 从IndexedDB获取视频
-        function getVideoFromIndexedDB(id) {
-            return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('IndexedDB未初始化'));
-                    return;
-                }
-                
-                const transaction = db.transaction(['videos'], 'readonly');
-                const store = transaction.objectStore('videos');
-                const request = store.get(id);
-                
-                request.onsuccess = function(event) {
-                    resolve(event.target.result);
-                };
-                
-                request.onerror = function(event) {
-                    reject(event.target.error);
-                };
-            });
-        }
-        
-        // 清除IndexedDB中的所有视频
-        function clearIndexedDB() {
-            return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('IndexedDB未初始化'));
-                    return;
-                }
-                
-                const transaction = db.transaction(['videos'], 'readwrite');
-                const store = transaction.objectStore('videos');
-                const request = store.clear();
-                
-                request.onsuccess = function() {
-                    resolve();
-                };
-                
-                request.onerror = function(event) {
-                    reject(event.target.error);
-                };
-            });
-        }
+        // 视频区功能 - 使用Firebase Storage存储
+        let videos = [];
         
         // 格式化文件大小
         function formatFileSize(bytes) {
@@ -503,22 +461,11 @@
                 videoElement.className = 'w-full h-48 object-cover';
                 videoElement.controls = true;
                 
-                // 从IndexedDB获取视频数据
-                initIndexedDB().then(() => {
-                    return getVideoFromIndexedDB(video.id);
-                }).then(videoData => {
-                    if (videoData && videoData.data) {
-                        const source = document.createElement('source');
-                        source.src = videoData.data;
-                        source.type = video.type || 'video/mp4';
-                        videoElement.appendChild(source);
-                    } else {
-                        videoElement.innerHTML = '视频加载失败';
-                    }
-                }).catch(error => {
-                    console.error('获取视频失败:', error);
-                    videoElement.innerHTML = '视频加载失败';
-                });
+                // 使用Firebase存储的视频URL
+                const source = document.createElement('source');
+                source.src = video.url;
+                source.type = video.type || 'video/mp4';
+                videoElement.appendChild(source);
                 
                 // 构建视频项
                 videoDiv.appendChild(videoElement);
@@ -528,11 +475,65 @@
                 infoDiv.innerHTML = `
                     <h3 class="font-semibold text-gray-800 mb-1">${video.name}</h3>
                     <p class="text-sm text-gray-500">${video.size} · ${video.timestamp}</p>
+                    <button onclick="deleteVideo('${video.id}')" class="mt-2 text-red-500 hover:text-red-700 transition-colors text-sm">
+                        <i class="fa fa-trash mr-1"></i>删除
+                    </button>
                 `;
                 videoDiv.appendChild(infoDiv);
                 
                 videosContainer.appendChild(videoDiv);
             });
+        }
+        
+        // 加载视频
+        function loadVideos() {
+            database.ref('videos').once('value')
+                .then(snapshot => {
+                    videos = [];
+                    snapshot.forEach(childSnapshot => {
+                        videos.push(childSnapshot.val());
+                    });
+                    // 按时间倒序排序
+                    videos.sort((a, b) => b.id - a.id);
+                    renderVideos();
+                })
+                .catch(error => {
+                    console.error('加载视频失败:', error);
+                });
+        }
+        
+        // 删除视频
+        function deleteVideo(videoId) {
+            if (confirm('确定要删除这个视频吗？')) {
+                // 先获取视频信息，以便删除存储中的文件
+                database.ref('videos/' + videoId).once('value')
+                    .then(snapshot => {
+                        const video = snapshot.val();
+                        if (video) {
+                            // 删除Firebase Storage中的视频文件
+                            const fileName = video.id + '_' + video.name;
+                            const storageRef = storage.ref('videos/' + fileName);
+                            
+                            storageRef.delete()
+                                .then(() => {
+                                    // 删除数据库中的视频元数据
+                                    return database.ref('videos/' + videoId).remove();
+                                })
+                                .then(() => {
+                                    loadVideos(); // 重新加载视频
+                                    alert('视频删除成功！');
+                                })
+                                .catch(error => {
+                                    console.error('删除视频失败:', error);
+                                    alert('删除视频失败，请重试。');
+                                });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('获取视频信息失败:', error);
+                        alert('删除视频失败，请重试。');
+                    });
+            }
         }
         
         // 上传视频
@@ -555,54 +556,50 @@
                     return;
                 }
                 
-                // 初始化IndexedDB
-                initIndexedDB().then(() => {
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        try {
-                            const videoDataURL = e.target.result;
-                            const videoId = Date.now();
-                            
+                const videoId = Date.now().toString();
+                const storageRef = storage.ref('videos/' + videoId + '_' + file.name);
+                
+                // 上传文件
+                const uploadTask = storageRef.put(file);
+                
+                // 显示上传进度
+                uploadTask.on('state_changed', 
+                    (snapshot) => {
+                        // 上传进度
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('上传进度: ' + progress + '%');
+                    }, 
+                    (error) => {
+                        // 上传错误
+                        console.error('上传视频失败:', error);
+                        alert('上传视频失败，请重试。错误信息：' + error.message);
+                    }, 
+                    () => {
+                        // 上传成功
+                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                             const video = {
                                 id: videoId,
                                 name: file.name,
                                 size: formatFileSize(file.size),
                                 timestamp: new Date().toLocaleString(),
-                                type: file.type
+                                type: file.type,
+                                url: downloadURL
                             };
                             
-                            // 保存视频数据到IndexedDB
-                            saveVideoToIndexedDB({
-                                id: videoId,
-                                data: videoDataURL
-                            }).then(() => {
-                                // 保存视频元数据到localStorage
-                                videos.unshift(video);
-                                localStorage.setItem('videos', JSON.stringify(videos));
-                                fileInput.value = '';
-                                renderVideos();
-                                alert('视频上传成功！');
-                            }).catch(error => {
-                                console.error('保存视频到IndexedDB失败:', error);
-                                alert('保存视频失败，请重试。错误信息：' + error.message);
-                            });
-                        } catch (error) {
-                            console.error('处理视频失败:', error);
-                            alert('处理视频失败，请重试。错误信息：' + error.message);
-                        }
-                    };
-                    
-                    reader.onerror = function(error) {
-                        console.error('读取文件失败:', error);
-                        alert('读取文件失败，请重试。错误信息：' + error.message);
-                    };
-                    
-                    reader.readAsDataURL(file);
-                }).catch(error => {
-                    console.error('初始化IndexedDB失败:', error);
-                    alert('初始化存储失败，请刷新页面重试。');
-                });
+                            // 保存视频元数据到Firebase数据库
+                            database.ref('videos/' + videoId).set(video)
+                                .then(() => {
+                                    fileInput.value = '';
+                                    loadVideos(); // 重新加载视频
+                                    alert('视频上传成功！');
+                                })
+                                .catch(error => {
+                                    console.error('保存视频元数据失败:', error);
+                                    alert('保存视频信息失败，请重试。');
+                                });
+                        });
+                    }
+                );
             } else {
                 alert('请选择一个视频文件。');
             }
@@ -610,32 +607,38 @@
         
         // 清除存储
         document.getElementById('clear-storage').addEventListener('click', function() {
-            if (confirm('确定要清除所有本地存储的数据吗？这将删除所有视频和帖子。')) {
-                try {
-                    // 清除localStorage
-                    localStorage.removeItem('videos');
-                    localStorage.removeItem('posts');
-                    videos = [];
-                    posts = [];
-                    
-                    // 清除IndexedDB
-                    initIndexedDB().then(() => {
-                        return clearIndexedDB();
-                    }).then(() => {
-                        renderVideos();
-                        renderPosts();
+            if (confirm('确定要清除所有数据吗？这将删除所有视频和帖子。')) {
+                // 清除帖子
+                database.ref('posts').remove()
+                    .then(() => {
+                        // 清除视频
+                        return database.ref('videos').once('value');
+                    })
+                    .then(snapshot => {
+                        const deletePromises = [];
+                        snapshot.forEach(childSnapshot => {
+                            const video = childSnapshot.val();
+                            if (video) {
+                                const fileName = video.id + '_' + video.name;
+                                const storageRef = storage.ref('videos/' + fileName);
+                                deletePromises.push(storageRef.delete());
+                            }
+                        });
+                        return Promise.all(deletePromises);
+                    })
+                    .then(() => {
+                        // 删除数据库中的视频元数据
+                        return database.ref('videos').remove();
+                    })
+                    .then(() => {
+                        loadPosts();
+                        loadVideos();
                         alert('存储已清除，现在可以上传新的内容了！');
-                    }).catch(error => {
-                        console.error('清除IndexedDB失败:', error);
-                        // 即使IndexedDB清除失败，也要更新UI
-                        renderVideos();
-                        renderPosts();
-                        alert('存储已清除，现在可以上传新的内容了！');
+                    })
+                    .catch(error => {
+                        console.error('清除存储失败:', error);
+                        alert('清除存储失败，请重试。');
                     });
-                } catch (error) {
-                    console.error('清除存储失败:', error);
-                    alert('清除存储失败，请重试。');
-                }
             }
         });
         
@@ -775,8 +778,8 @@
         
         // 初始化页面
         function initPage() {
-            renderPosts();
-            renderVideos();
+            loadPosts();
+            loadVideos();
             renderSurveyQuestions();
         }
         
