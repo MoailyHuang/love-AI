@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>恋与人机 - 探索AI与人类情感的边界与共生</title>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js"></script>
+    <!-- Firebase SDK (使用兼容模式) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
     <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -67,7 +67,7 @@
                 <!-- 桌面导航链接 -->
                 <div class="hidden md:flex space-x-8">
                     <a href="#home" class="nav-link active px-3 py-2 rounded-md hover:bg-blue-700 transition-colors">首页</a>
-                    <a href="#discussion" class="nav-link px-3 py-2 rounded-md hover:bg-blue-700 transition-colors">讨论区</a>
+                    <a href="#discussion" class="nav-link px-3 py-2 rounded-md hover:bg-blue-700 transition-colors">探讨区</a>
                     <a href="#videos" class="nav-link px-3 py-2 rounded-md hover:bg-blue-700 transition-colors">视频区</a>
                     <a href="#survey" class="nav-link px-3 py-2 rounded-md hover:bg-blue-700 transition-colors">调研区</a>
                 </div>
@@ -83,7 +83,7 @@
             <!-- 移动端导航菜单 -->
             <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
                 <a href="#home" class="block py-2 px-4 hover:bg-blue-700 rounded-md">首页</a>
-                <a href="#discussion" class="block py-2 px-4 hover:bg-blue-700 rounded-md">讨论区</a>
+                <a href="#discussion" class="block py-2 px-4 hover:bg-blue-700 rounded-md">探讨区</a>
                 <a href="#videos" class="block py-2 px-4 hover:bg-blue-700 rounded-md">视频区</a>
                 <a href="#survey" class="block py-2 px-4 hover:bg-blue-700 rounded-md">调研区</a>
             </div>
@@ -95,8 +95,14 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-8 md:mb-0">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-shadow">恋与人机</h1>
-                    <p class="text-lg md:text-xl mb-8 opacity-90">探索AI与人类情感的边界与共生</p>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-2 text-shadow">恋与人机</h1>
+                    <p class="text-lg md:text-xl mb-4 opacity-90">探索AI与人类情感的边界与共生</p>
+                    <p class="text-md md:text-lg mb-8 opacity-80">制作小组：第七组</p>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-6">
+                        <p class="text-sm md:text-base opacity-95">当人工智能不断突破技术边界，拟人化形态与情感交互逐渐走进现实，《她》《阿丽塔：战斗天使》《攻壳机动队》三部经典作品，为我们勾勒出AI情感觉醒、自我认知探寻、人机边界模糊的多元图景。</p>
+                        <p class="text-sm md:text-base opacity-95 mt-2">我们小组认为，AI的情感表达本质是算法与数据驱动的模拟，而非基于生命体验的真实主观感知；但不可否认的是，AI具备的情感化交互能力，正在深刻影响人类的情感投射与认知判断。关于AI是否拥有独立主体性，我们始终秉持辩证思考：当下AI无真正意义上的自我意识与自主意志，但其技术演进，不断倒逼我们重新定义“生命”“意识”与“情感”的边界，也让我们不得不正视人机关系带来的伦理、心理与社会议题。</p>
+                        <p class="text-sm md:text-base opacity-95 mt-2">本网站设立讨论区、影片区与调研区，旨在以经典影视为切入点，和大家一同探讨人机情感的本质、AI主体性的哲学内核，倾听不同视角的观点，共同思考人工智能时代下，人与技术该如何理性共处。</p>
+                    </div>
                     <div class="flex flex-wrap gap-4">
                         <a href="#discussion" class="bg-white text-primary px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
                             <i class="fa fa-comments mr-2"></i>加入讨论
@@ -142,7 +148,7 @@
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                         <i class="fa fa-comments text-2xl text-primary"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-primary">情感交流</h3>
+                    <h3 class="text-xl font-semibold mb-3 text-primary">探讨区</h3>
                     <p class="text-gray-600">分享你对AI与人类情感关系的思考，匿名交流，畅所欲言，探索人机情感的边界。</p>
                 </div>
                 
@@ -172,7 +178,7 @@
         <div class="container mx-auto px-4">
             <div class="flex items-center mb-8">
                 <i class="fa fa-comments text-2xl text-primary mr-3"></i>
-                <h2 class="text-3xl font-bold text-primary">情感交流区</h2>
+                <h2 class="text-3xl font-bold text-primary">探讨区</h2>
             </div>
             
             <!-- 发帖表单 -->
@@ -279,7 +285,7 @@
                     <h3 class="text-lg font-semibold mb-4">快速链接</h3>
                     <ul class="space-y-2">
                         <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
-                        <li><a href="#discussion" class="text-gray-400 hover:text-white transition-colors">讨论区</a></li>
+                        <li><a href="#discussion" class="text-gray-400 hover:text-white transition-colors">探讨区</a></li>
                         <li><a href="#videos" class="text-gray-400 hover:text-white transition-colors">视频区</a></li>
                         <li><a href="#survey" class="text-gray-400 hover:text-white transition-colors">调研区</a></li>
                     </ul>
@@ -314,10 +320,22 @@
             appId: "1:1234567890:web:abcdef1234567890"
         };
         
+        // 全局变量
+        let database, storage;
+        let useMockMode = false; // 模拟模式，当Firebase不可用时使用
+        
         // 初始化Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const storage = firebase.storage();
+        try {
+            firebase.initializeApp(firebaseConfig);
+            database = firebase.database();
+            storage = firebase.storage();
+            console.log('Firebase初始化成功');
+        } catch (error) {
+            console.error('Firebase初始化失败:', error);
+            useMockMode = true;
+            console.log('切换到模拟模式');
+            alert('Firebase初始化失败，已切换到模拟模式。错误信息：' + error.message);
+        }
         
         // 导航菜单切换
         document.getElementById('menu-toggle').addEventListener('click', function() {
@@ -380,24 +398,54 @@
         
         // 加载帖子
         function loadPosts() {
-            database.ref('posts').once('value')
-                .then(snapshot => {
-                    posts = [];
-                    snapshot.forEach(childSnapshot => {
-                        posts.push(childSnapshot.val());
-                    });
-                    // 按时间倒序排序
+            try {
+                if (useMockMode) {
+                    // 从本地存储加载帖子
+                    const storedPosts = localStorage.getItem('mockPosts');
+                    posts = storedPosts ? JSON.parse(storedPosts) : [];
                     posts.sort((a, b) => b.id - a.id);
                     renderPosts();
-                })
-                .catch(error => {
-                    console.error('加载帖子失败:', error);
-                });
+                    return;
+                }
+                
+                if (!database) {
+                    console.error('Firebase未初始化，无法加载帖子');
+                    renderPosts(); // 即使无法加载，也渲染空状态
+                    return;
+                }
+                
+                database.ref('posts').once('value')
+                    .then(snapshot => {
+                        posts = [];
+                        snapshot.forEach(childSnapshot => {
+                            posts.push(childSnapshot.val());
+                        });
+                        // 按时间倒序排序
+                        posts.sort((a, b) => b.id - a.id);
+                        renderPosts();
+                    })
+                    .catch(error => {
+                        console.error('加载帖子失败:', error);
+                        renderPosts(); // 即使加载失败，也渲染空状态
+                    });
+            } catch (error) {
+                console.error('加载帖子时发生错误:', error);
+                renderPosts(); // 即使发生错误，也渲染空状态
+            }
         }
         
         // 删除帖子
         function deletePost(postId) {
             if (confirm('确定要删除这篇帖子吗？')) {
+                if (useMockMode) {
+                    // 从本地存储删除帖子
+                    posts = posts.filter(post => post.id !== postId);
+                    localStorage.setItem('mockPosts', JSON.stringify(posts));
+                    renderPosts();
+                    alert('帖子删除成功！');
+                    return;
+                }
+                
                 database.ref('posts/' + postId).remove()
                     .then(() => {
                         loadPosts(); // 重新加载帖子
@@ -418,6 +466,16 @@
                     content: content,
                     timestamp: new Date().toLocaleString()
                 };
+                
+                if (useMockMode) {
+                    // 保存到本地存储
+                    posts.push(post);
+                    localStorage.setItem('mockPosts', JSON.stringify(posts));
+                    document.getElementById('post-content').value = '';
+                    loadPosts(); // 重新加载帖子
+                    alert('帖子发布成功！（模拟模式）');
+                    return;
+                }
                 
                 // 保存到Firebase
                 database.ref('posts/' + post.id).set(post)
@@ -461,7 +519,7 @@
                 videoElement.className = 'w-full h-48 object-cover';
                 videoElement.controls = true;
                 
-                // 使用Firebase存储的视频URL
+                // 使用视频URL
                 const source = document.createElement('source');
                 source.src = video.url;
                 source.type = video.type || 'video/mp4';
@@ -487,24 +545,54 @@
         
         // 加载视频
         function loadVideos() {
-            database.ref('videos').once('value')
-                .then(snapshot => {
-                    videos = [];
-                    snapshot.forEach(childSnapshot => {
-                        videos.push(childSnapshot.val());
-                    });
-                    // 按时间倒序排序
+            try {
+                if (useMockMode) {
+                    // 从本地存储加载视频
+                    const storedVideos = localStorage.getItem('mockVideos');
+                    videos = storedVideos ? JSON.parse(storedVideos) : [];
                     videos.sort((a, b) => b.id - a.id);
                     renderVideos();
-                })
-                .catch(error => {
-                    console.error('加载视频失败:', error);
-                });
+                    return;
+                }
+                
+                if (!database) {
+                    console.error('Firebase未初始化，无法加载视频');
+                    renderVideos(); // 即使无法加载，也渲染空状态
+                    return;
+                }
+                
+                database.ref('videos').once('value')
+                    .then(snapshot => {
+                        videos = [];
+                        snapshot.forEach(childSnapshot => {
+                            videos.push(childSnapshot.val());
+                        });
+                        // 按时间倒序排序
+                        videos.sort((a, b) => b.id - a.id);
+                        renderVideos();
+                    })
+                    .catch(error => {
+                        console.error('加载视频失败:', error);
+                        renderVideos(); // 即使加载失败，也渲染空状态
+                    });
+            } catch (error) {
+                console.error('加载视频时发生错误:', error);
+                renderVideos(); // 即使发生错误，也渲染空状态
+            }
         }
         
         // 删除视频
         function deleteVideo(videoId) {
             if (confirm('确定要删除这个视频吗？')) {
+                if (useMockMode) {
+                    // 从本地存储删除视频
+                    videos = videos.filter(video => video.id !== videoId);
+                    localStorage.setItem('mockVideos', JSON.stringify(videos));
+                    renderVideos();
+                    alert('视频删除成功！');
+                    return;
+                }
+                
                 // 先获取视频信息，以便删除存储中的文件
                 database.ref('videos/' + videoId).once('value')
                     .then(snapshot => {
@@ -538,8 +626,11 @@
         
         // 上传视频
         document.getElementById('upload-video').addEventListener('click', function() {
+            console.log('上传按钮被点击');
             const fileInput = document.getElementById('video-file');
             const file = fileInput.files[0];
+            
+            console.log('选择的文件:', file);
             
             if (file) {
                 // 检查文件大小（限制为50MB）
@@ -556,50 +647,101 @@
                     return;
                 }
                 
-                const videoId = Date.now().toString();
-                const storageRef = storage.ref('videos/' + videoId + '_' + file.name);
-                
-                // 上传文件
-                const uploadTask = storageRef.put(file);
-                
-                // 显示上传进度
-                uploadTask.on('state_changed', 
-                    (snapshot) => {
-                        // 上传进度
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log('上传进度: ' + progress + '%');
-                    }, 
-                    (error) => {
-                        // 上传错误
-                        console.error('上传视频失败:', error);
-                        alert('上传视频失败，请重试。错误信息：' + error.message);
-                    }, 
-                    () => {
-                        // 上传成功
-                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                            const video = {
-                                id: videoId,
-                                name: file.name,
-                                size: formatFileSize(file.size),
-                                timestamp: new Date().toLocaleString(),
-                                type: file.type,
-                                url: downloadURL
-                            };
-                            
-                            // 保存视频元数据到Firebase数据库
-                            database.ref('videos/' + videoId).set(video)
-                                .then(() => {
-                                    fileInput.value = '';
-                                    loadVideos(); // 重新加载视频
-                                    alert('视频上传成功！');
-                                })
-                                .catch(error => {
-                                    console.error('保存视频元数据失败:', error);
-                                    alert('保存视频信息失败，请重试。');
-                                });
-                        });
+                try {
+                    if (useMockMode) {
+                        // 模拟模式：使用本地存储
+                        console.log('使用模拟模式上传视频');
+                        const videoId = Date.now().toString();
+                        
+                        // 创建视频对象URL
+                        const videoUrl = URL.createObjectURL(file);
+                        
+                        const video = {
+                            id: videoId,
+                            name: file.name,
+                            size: formatFileSize(file.size),
+                            timestamp: new Date().toLocaleString(),
+                            type: file.type,
+                            url: videoUrl
+                        };
+                        
+                        // 保存到本地存储
+                        videos.push(video);
+                        localStorage.setItem('mockVideos', JSON.stringify(videos));
+                        
+                        console.log('视频上传成功（模拟模式）');
+                        fileInput.value = '';
+                        loadVideos(); // 重新加载视频
+                        alert('视频上传成功！（模拟模式）');
+                        return;
                     }
-                );
+                    
+                    // 检查Firebase是否初始化
+                    if (!storage || !database) {
+                        throw new Error('Firebase未初始化，请检查网络连接或Firebase配置。');
+                    }
+                    
+                    console.log('开始上传视频');
+                    const videoId = Date.now().toString();
+                    console.log('视频ID:', videoId);
+                    
+                    const storageRef = storage.ref('videos/' + videoId + '_' + file.name);
+                    console.log('存储引用:', storageRef);
+                    
+                    // 上传文件
+                    const uploadTask = storageRef.put(file);
+                    console.log('上传任务:', uploadTask);
+                    
+                    // 显示上传进度
+                    uploadTask.on('state_changed', 
+                        (snapshot) => {
+                            // 上传进度
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            console.log('上传进度: ' + progress + '%');
+                        }, 
+                        (error) => {
+                            // 上传错误
+                            console.error('上传视频失败:', error);
+                            alert('上传视频失败，请重试。错误信息：' + error.message);
+                        }, 
+                        () => {
+                            // 上传成功
+                            console.log('上传成功，获取下载URL');
+                            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                console.log('下载URL:', downloadURL);
+                                const video = {
+                                    id: videoId,
+                                    name: file.name,
+                                    size: formatFileSize(file.size),
+                                    timestamp: new Date().toLocaleString(),
+                                    type: file.type,
+                                    url: downloadURL
+                                };
+                                
+                                console.log('视频元数据:', video);
+                                
+                                // 保存视频元数据到Firebase数据库
+                                database.ref('videos/' + videoId).set(video)
+                                    .then(() => {
+                                        console.log('视频元数据保存成功');
+                                        fileInput.value = '';
+                                        loadVideos(); // 重新加载视频
+                                        alert('视频上传成功！');
+                                    })
+                                    .catch(error => {
+                                        console.error('保存视频元数据失败:', error);
+                                        alert('保存视频信息失败，请重试。');
+                                    });
+                            }).catch(error => {
+                                console.error('获取下载URL失败:', error);
+                                alert('获取视频链接失败，请重试。');
+                            });
+                        }
+                    );
+                } catch (error) {
+                    console.error('上传过程中发生错误:', error);
+                    alert('上传失败：' + error.message);
+                }
             } else {
                 alert('请选择一个视频文件。');
             }
@@ -608,6 +750,18 @@
         // 清除存储
         document.getElementById('clear-storage').addEventListener('click', function() {
             if (confirm('确定要清除所有数据吗？这将删除所有视频和帖子。')) {
+                if (useMockMode) {
+                    // 清除本地存储
+                    localStorage.removeItem('mockVideos');
+                    localStorage.removeItem('mockPosts');
+                    videos = [];
+                    posts = [];
+                    renderVideos();
+                    renderPosts();
+                    alert('存储已清除，现在可以上传新的内容了！（模拟模式）');
+                    return;
+                }
+                
                 // 清除帖子
                 database.ref('posts').remove()
                     .then(() => {
@@ -646,63 +800,63 @@
         const surveyQuestions = [
             {
                 id: 1,
-                question: 'AI能够理解和回应人类情感吗？',
+                question: '你认为当前技术下的AI能够产生真实的自我情感吗？',
                 options: ['是', '否'],
-                correctAnswer: 0
+                correctAnswer: 1
             },
             {
                 id: 2,
-                question: '人类可以与AI建立情感连接吗？',
+                question: '你觉得具备拟人化外形的AI，更容易让人类产生情感依赖吗？',
                 options: ['是', '否'],
                 correctAnswer: 0
             },
             {
                 id: 3,
-                question: 'AI应该被设计成具有情感能力吗？',
-                options: ['是', '否'],
-                correctAnswer: 0
-            },
-            {
-                id: 4,
-                question: '人机情感关系会威胁人类之间的情感联系吗？',
+                question: '你认为AI可以拥有独立于人类的自主主体性吗？',
                 options: ['是', '否'],
                 correctAnswer: 1
             },
             {
+                id: 4,
+                question: '你认同人机之间能够建立真正的情感联结吗？',
+                options: ['是', '否'],
+                correctAnswer: 0
+            },
+            {
                 id: 5,
-                question: 'AI可以成为人类的情感伴侣吗？',
+                question: '你觉得AI的情感表达，只是对人类情绪的程序化模仿吗？',
                 options: ['是', '否'],
                 correctAnswer: 0
             },
             {
                 id: 6,
-                question: 'AI情感交互应该遵循伦理规范吗？',
+                question: '你认为未来AI有可能觉醒自我意识吗？',
                 options: ['是', '否'],
                 correctAnswer: 0
             },
             {
                 id: 7,
-                question: '人类与AI的情感互动会影响人类的心理健康吗？',
+                question: '你觉得人类需要对具备情感交互能力的AI承担伦理责任吗？',
                 options: ['是', '否'],
                 correctAnswer: 0
             },
             {
                 id: 8,
-                question: 'AI应该被赋予情感权利吗？',
-                options: ['是', '否'],
-                correctAnswer: 1
-            },
-            {
-                id: 9,
-                question: '人机情感共生是未来的发展趋势吗？',
+                question: '你认同AI的主体性认知，会动摇人类对自身生命的定义吗？',
                 options: ['是', '否'],
                 correctAnswer: 0
             },
             {
-                id: 10,
-                question: '我们应该限制AI的情感能力发展吗？',
+                id: 9,
+                question: '你认为影视作品中AI的情感与主体性设定，符合现实技术发展逻辑吗？',
                 options: ['是', '否'],
                 correctAnswer: 1
+            },
+            {
+                id: 10,
+                question: '你觉得人机情感关系，会对人类正常的社交关系产生影响吗？',
+                options: ['是', '否'],
+                correctAnswer: 0
             }
         ];
         
