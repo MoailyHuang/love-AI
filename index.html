@@ -330,6 +330,18 @@
             database = firebase.database();
             storage = firebase.storage();
             console.log('Firebase初始化成功');
+            
+            // 测试Firebase连接
+            database.ref('.info/connected').once('value')
+                .then(snapshot => {
+                    console.log('Firebase连接测试:', snapshot.val());
+                })
+                .catch(error => {
+                    console.error('Firebase连接测试失败:', error);
+                    useMockMode = true;
+                    console.log('切换到模拟模式');
+                    alert('Firebase连接测试失败，已切换到模拟模式。错误信息：' + error.message);
+                });
         } catch (error) {
             console.error('Firebase初始化失败:', error);
             useMockMode = true;
@@ -648,32 +660,42 @@
                 }
                 
                 try {
+                    // 强制使用模拟模式，因为Firebase配置可能无效
+                    useMockMode = true;
+                    console.log('强制使用模拟模式上传视频');
+                    
                     if (useMockMode) {
                         // 模拟模式：使用本地存储
                         console.log('使用模拟模式上传视频');
                         const videoId = Date.now().toString();
                         
-                        // 创建视频对象URL
-                        const videoUrl = URL.createObjectURL(file);
-                        
-                        const video = {
-                            id: videoId,
-                            name: file.name,
-                            size: formatFileSize(file.size),
-                            timestamp: new Date().toLocaleString(),
-                            type: file.type,
-                            url: videoUrl
-                        };
-                        
-                        // 保存到本地存储
-                        videos.push(video);
-                        localStorage.setItem('mockVideos', JSON.stringify(videos));
-                        
-                        console.log('视频上传成功（模拟模式）');
-                        fileInput.value = '';
-                        loadVideos(); // 重新加载视频
-                        alert('视频上传成功！（模拟模式）');
-                        return;
+                        try {
+                            // 创建视频对象URL
+                            const videoUrl = URL.createObjectURL(file);
+                            
+                            const video = {
+                                id: videoId,
+                                name: file.name,
+                                size: formatFileSize(file.size),
+                                timestamp: new Date().toLocaleString(),
+                                type: file.type,
+                                url: videoUrl
+                            };
+                            
+                            // 保存到本地存储
+                            videos.push(video);
+                            localStorage.setItem('mockVideos', JSON.stringify(videos));
+                            
+                            console.log('视频上传成功（模拟模式）');
+                            fileInput.value = '';
+                            loadVideos(); // 重新加载视频
+                            alert('视频上传成功！（模拟模式）');
+                            return;
+                        } catch (mockError) {
+                            console.error('模拟模式上传失败:', mockError);
+                            alert('模拟模式上传失败，请重试。错误信息：' + mockError.message);
+                            return;
+                        }
                     }
                     
                     // 检查Firebase是否初始化
