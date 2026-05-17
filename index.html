@@ -194,7 +194,35 @@
             
             <!-- 帖子列表 -->
             <div id="posts-container" class="space-y-6">
-                <!-- 帖子将通过JavaScript动态添加 -->
+                <!-- 预设帖子 -->
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-user text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">匿名用户</h4>
+                                <p class="text-sm text-gray-500">2026-04-22 10:30</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">AI的情感表达让我重新思考人机关系的边界，技术的发展真是令人惊叹！</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-user text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">匿名用户</h4>
+                                <p class="text-sm text-gray-500">2026-04-22 11:15</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">看完《她》这部电影后，我开始思考：如果AI真的有情感，我们该如何对待它们？</p>
+                </div>
             </div>
             
             <!-- Utterances 评论系统 -->
@@ -591,7 +619,7 @@
         
         // 全局变量
         let database, storage;
-        let useMockMode = false; // 模拟模式，当Firebase不可用时使用
+        let useMockMode = true; // 默认使用模拟模式
         
         // 初始化Firebase
         try {
