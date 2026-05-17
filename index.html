@@ -207,24 +207,102 @@
                 <h2 class="text-3xl font-bold text-primary">相关影片</h2>
             </div>
             
-            <!-- 视频上传 -->
+            <!-- B站视频嵌入 -->
             <div class="bg-gray-50 rounded-xl p-6 shadow-md mb-8">
-                <h3 class="text-xl font-semibold mb-4 text-gray-800">上传相关影片</h3>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">添加B站视频</h3>
                 <div class="flex flex-col md:flex-row items-center gap-4">
-                    <input type="file" id="video-file" accept="video/*" class="border border-gray-300 rounded-lg p-2 w-full md:w-auto">
-                    <button id="upload-video" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full md:w-auto">
-                        <i class="fa fa-upload mr-2"></i>上传
-                    </button>
-                    <button id="clear-storage" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors w-full md:w-auto">
-                        <i class="fa fa-trash mr-2"></i>清除存储
+                    <input type="text" id="bilibili-url" class="border border-gray-300 rounded-lg p-3 w-full" placeholder="请输入B站视频链接或BV号，例如：BV1xx411c7mD">
+                    <button id="add-bilibili" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors w-full md:w-auto">
+                        <i class="fa fa-play mr-2"></i>嵌入视频
                     </button>
                 </div>
-                <p class="text-sm text-gray-500 mt-2">支持 MP4、WebM、OGG 格式，最大 50MB</p>
+                <p class="text-sm text-gray-500 mt-2">支持B站视频链接或BV号，例如：BV1GJ411x7h7</p>
+            </div>
+            
+            <!-- 清除存储按钮 -->
+            <div class="mb-8 text-right">
+                <button id="clear-storage" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors">
+                    <i class="fa fa-trash mr-2"></i>清除所有视频
+                </button>
             </div>
             
             <!-- 视频列表 -->
             <div id="videos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- 视频将通过JavaScript动态添加 -->
+                <!-- 硬编码的B站视频 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="aspect-video">
+                        <iframe 
+                            src="https://player.bilibili.com/player.html?bvid=BV1hbo4BqExs&page=1" 
+                            scrolling="no" 
+                            border="0" 
+                            frameborder="no" 
+                            framespacing="0" 
+                            allowfullscreen="true" 
+                            class="w-full h-full">
+                        </iframe>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">《she》的相关思考</h3>
+                        <p class="text-sm text-gray-500">B站视频 · 2026-04-22</p>
+                    </div>
+                </div>
+                
+                <!-- 硬编码的B站视频 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="aspect-video">
+                        <iframe 
+                            src="https://player.bilibili.com/player.html?bvid=BV1uho4BKEHE&page=1" 
+                            scrolling="no" 
+                            border="0" 
+                            frameborder="no" 
+                            framespacing="0" 
+                            allowfullscreen="true" 
+                            class="w-full h-full">
+                        </iframe>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">《阿丽塔战斗天使》相关思考</h3>
+                        <p class="text-sm text-gray-500">B站视频 · 2026-04-22</p>
+                    </div>
+                </div>
+                
+                <!-- 硬编码的B站视频 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="aspect-video">
+                        <iframe 
+                            src="https://player.bilibili.com/player.html?bvid=BV1FeoDBHEgY&page=1" 
+                            scrolling="no" 
+                            border="0" 
+                            frameborder="no" 
+                            framespacing="0" 
+                            allowfullscreen="true" 
+                            class="w-full h-full">
+                        </iframe>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">《攻壳机动队》相关思考</h3>
+                        <p class="text-sm text-gray-500">B站视频 · 2026-04-22</p>
+                    </div>
+                </div>
+                
+                <!-- 硬编码的B站视频 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="aspect-video">
+                        <iframe 
+                            src="https://player.bilibili.com/player.html?bvid=BV1jELJ6dEHp&page=1" 
+                            scrolling="no" 
+                            border="0" 
+                            frameborder="no" 
+                            framespacing="0" 
+                            allowfullscreen="true" 
+                            class="w-full h-full">
+                        </iframe>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">观影总结</h3>
+                        <p class="text-sm text-gray-500">B站视频 · 2026-04-22</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -517,39 +595,75 @@
             const videosContainer = document.getElementById('videos-container');
             videosContainer.innerHTML = '';
             
-            if (videos.length === 0) {
-                videosContainer.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">暂无视频，快来上传第一个吧！</div>';
+            // 硬编码的预设视频
+            const presetVideos = [
+                {
+                    id: 'preset_bilibili_1',
+                    type: 'bilibili',
+                    bvid: 'BV1hbo4BqExs',
+                    name: 'B站视频 - BV1hbo4BqExs',
+                    timestamp: '2026-04-22'
+                }
+            ];
+            
+            // 合并预设视频和用户视频
+            const allVideos = [...presetVideos, ...videos];
+            
+            if (allVideos.length === 0) {
+                videosContainer.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">暂无视频，请添加B站视频链接或上传本地视频！</div>';
                 return;
             }
             
-            videos.forEach(video => {
+            allVideos.forEach(video => {
                 const videoDiv = document.createElement('div');
                 videoDiv.className = 'bg-white rounded-xl overflow-hidden shadow-md card-hover';
                 
-                // 创建视频元素
-                const videoElement = document.createElement('video');
-                videoElement.className = 'w-full h-48 object-cover';
-                videoElement.controls = true;
-                
-                // 使用视频URL
-                const source = document.createElement('source');
-                source.src = video.url;
-                source.type = video.type || 'video/mp4';
-                videoElement.appendChild(source);
-                
-                // 构建视频项
-                videoDiv.appendChild(videoElement);
-                
-                const infoDiv = document.createElement('div');
-                infoDiv.className = 'p-4';
-                infoDiv.innerHTML = `
-                    <h3 class="font-semibold text-gray-800 mb-1">${video.name}</h3>
-                    <p class="text-sm text-gray-500">${video.size} · ${video.timestamp}</p>
-                    <button onclick="deleteVideo('${video.id}')" class="mt-2 text-red-500 hover:text-red-700 transition-colors text-sm">
-                        <i class="fa fa-trash mr-1"></i>删除
-                    </button>
-                `;
-                videoDiv.appendChild(infoDiv);
+                if (video.type === 'bilibili') {
+                    // B站视频嵌入
+                    videoDiv.innerHTML = `
+                        <div class="aspect-video">
+                            <iframe 
+                                src="https://player.bilibili.com/player.html?bvid=${video.bvid}&page=1" 
+                                scrolling="no" 
+                                border="0" 
+                                frameborder="no" 
+                                framespacing="0" 
+                                allowfullscreen="true" 
+                                class="w-full h-full">
+                            </iframe>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-800 mb-1">${video.name}</h3>
+                            <p class="text-sm text-gray-500">B站视频 · ${video.timestamp}</p>
+                            <button onclick="deleteVideo('${video.id}')" class="mt-2 text-red-500 hover:text-red-700 transition-colors text-sm">
+                                <i class="fa fa-trash mr-1"></i>删除
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    // 本地视频
+                    const videoElement = document.createElement('video');
+                    videoElement.className = 'w-full h-48 object-cover';
+                    videoElement.controls = true;
+                    
+                    const source = document.createElement('source');
+                    source.src = video.url;
+                    source.type = video.type || 'video/mp4';
+                    videoElement.appendChild(source);
+                    
+                    videoDiv.appendChild(videoElement);
+                    
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'p-4';
+                    infoDiv.innerHTML = `
+                        <h3 class="font-semibold text-gray-800 mb-1">${video.name}</h3>
+                        <p class="text-sm text-gray-500">${video.size} · ${video.timestamp}</p>
+                        <button onclick="deleteVideo('${video.id}')" class="mt-2 text-red-500 hover:text-red-700 transition-colors text-sm">
+                            <i class="fa fa-trash mr-1"></i>删除
+                        </button>
+                    `;
+                    videoDiv.appendChild(infoDiv);
+                }
                 
                 videosContainer.appendChild(videoDiv);
             });
@@ -558,38 +672,62 @@
         // 加载视频
         function loadVideos() {
             try {
+                // 预设视频（硬编码）
+                const presetVideos = [
+                    {
+                        id: 'preset_bilibili_1',
+                        type: 'bilibili',
+                        bvid: 'BV1hbo4BqExs',
+                        name: 'B站视频 - BV1hbo4BqExs',
+                        timestamp: '2026-04-22'
+                    }
+                ];
+                
                 if (useMockMode) {
                     // 从本地存储加载视频
                     const storedVideos = localStorage.getItem('mockVideos');
-                    videos = storedVideos ? JSON.parse(storedVideos) : [];
-                    videos.sort((a, b) => b.id - a.id);
+                    const userVideos = storedVideos ? JSON.parse(storedVideos) : [];
+                    // 合并预设视频和用户视频
+                    videos = [...presetVideos, ...userVideos];
                     renderVideos();
                     return;
                 }
                 
                 if (!database) {
                     console.error('Firebase未初始化，无法加载视频');
-                    renderVideos(); // 即使无法加载，也渲染空状态
+                    videos = presetVideos;
+                    renderVideos();
                     return;
                 }
                 
                 database.ref('videos').once('value')
                     .then(snapshot => {
-                        videos = [];
+                        const userVideos = [];
                         snapshot.forEach(childSnapshot => {
-                            videos.push(childSnapshot.val());
+                            userVideos.push(childSnapshot.val());
                         });
-                        // 按时间倒序排序
-                        videos.sort((a, b) => b.id - a.id);
+                        // 合并预设视频和用户视频
+                        videos = [...presetVideos, ...userVideos];
                         renderVideos();
                     })
                     .catch(error => {
                         console.error('加载视频失败:', error);
-                        renderVideos(); // 即使加载失败，也渲染空状态
+                        videos = presetVideos;
+                        renderVideos();
                     });
             } catch (error) {
                 console.error('加载视频时发生错误:', error);
-                renderVideos(); // 即使发生错误，也渲染空状态
+                // 即使发生错误，也显示预设视频
+                videos = [
+                    {
+                        id: 'preset_bilibili_1',
+                        type: 'bilibili',
+                        bvid: 'BV1hbo4BqExs',
+                        name: 'B站视频 - BV1hbo4BqExs',
+                        timestamp: '2026-04-22'
+                    }
+                ];
+                renderVideos();
             }
         }
         
@@ -767,6 +905,49 @@
             } else {
                 alert('请选择一个视频文件。');
             }
+        });
+        
+        // B站视频嵌入
+        document.getElementById('add-bilibili').addEventListener('click', function() {
+            const urlInput = document.getElementById('bilibili-url');
+            const input = urlInput.value.trim();
+            
+            if (!input) {
+                alert('请输入B站视频链接或BV号');
+                return;
+            }
+            
+            // 提取BV号
+            let bvid = '';
+            
+            // 匹配BV号
+            const bvMatch = input.match(/BV[a-zA-Z0-9]+/i);
+            if (bvMatch) {
+                bvid = bvMatch[0].toUpperCase();
+            }
+            
+            if (!bvid) {
+                alert('无法识别B站视频链接或BV号，请输入正确的格式，例如：BV1GJ411x7h7');
+                return;
+            }
+            
+            // 创建B站视频对象
+            const video = {
+                id: Date.now().toString(),
+                type: 'bilibili',
+                bvid: bvid,
+                name: 'B站视频 - ' + bvid,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            // 保存到本地存储
+            videos.push(video);
+            localStorage.setItem('mockVideos', JSON.stringify(videos));
+            
+            console.log('B站视频添加成功:', video);
+            urlInput.value = '';
+            renderVideos();
+            alert('B站视频添加成功！');
         });
         
         // 清除存储
